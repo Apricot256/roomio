@@ -67,8 +67,6 @@ export default {
       }
       this.history.push(row);
     }
-    console.log(this.history.length)
-    console.log(this.history[0].length)
   },
   methods: {
     getColor : (level: number):string => {
