@@ -3,6 +3,7 @@ services:
   app:
     container_name: app
     build: ./app/
+    command: 'npm run dev'
     ports:
       - '3000:3000'
     volumes:
