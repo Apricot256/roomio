@@ -2,6 +2,7 @@ import express from "express";
 import * as mysql from 'promise-mysql';
 import bodyParser from "body-parser";
 import cors from 'cors';
+import cron from 'node-cron';
 
 const app = express();
 const port = 3000;
@@ -29,6 +30,15 @@ const connection = async () => {
   return connection;
 }
 
+const getSqlDatetimeStr = (date: Date): string => {
+  const year = date.getFullYear();
+  const month = ('0' + (date.getMonth() + 1)).slice(-2);
+  const day = ('0' + date.getDate()).slice(-2);
+  const hour = ('0' + date.getHours()).slice(-2);
+  const minute = ('0' + date.getMinutes()).slice(-2);
+  const second = ('0' + date.getSeconds()).slice(-2);
+  return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+}
 
 // create table if the tables is not exist
 const checkTable = (table: string, query:string):void => {
@@ -60,6 +70,8 @@ checkTable('LOG', query_C_LOG);
 
 // Survival Confirmation API
 app.post('/api/health', (req, res) => {
+  console.log(new Date().toLocaleString());
+  console.log(new Date().toISOString());
   res.status(200).send('alive');
 });
 
@@ -180,14 +192,14 @@ app.post('/api/io', (req, res) => {
     if(ret.length == 0){
       // In the case user is in the room.
       connection().then(connection =>{
-        connection.query(`INSERT INTO LOG (id, place, inTime) VALUES ('${id}', '${place}', '${new Date().toISOString().slice(0, 19).replace('T', ' ')}');`);
+        connection.query(`INSERT INTO LOG (id, place, inTime) VALUES ('${id}', '${place}', '${getSqlDatetimeStr(new Date())}');`);
         connection.end();
       })
       console.log(`${id} enters into ${place}.`);
     }else{
       // In the case user is not in the room.
       connection().then(connection =>{
-        connection.query(`UPDATE LOG SET outTime = "${new Date().toISOString().slice(0, 19).replace('T', ' ')}" WHERE id="${id}" AND outTime IS NULL;`);
+        connection.query(`UPDATE LOG SET outTime = "${getSqlDatetimeStr(new Date())}" WHERE id="${id}" AND outTime IS NULL;`);
         connection.end();
       })
       console.log(`${id} exit from ${place}.`);
@@ -196,5 +208,14 @@ app.post('/api/io', (req, res) => {
   })
   res.status(200).send('ok');
 })
+
+
+// At 0:00 Forced to leave the room if there is a user who forgot to exit the room
+cron.schedule('0 0 0 * * *', () => {
+  connection().then(connection => {
+    connection.query(`UPDATE LOG SET outTime = "${getSqlDatetimeStr(new Date())}" WHERE outTime IS NULL;`);
+    connection.end();
+  })
+});
 
 app.listen(port, () => console.log(`Example app membersening on port ${port}!`));
