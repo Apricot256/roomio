@@ -1,6 +1,5 @@
 <template>
   <div class="all">
-    <!-- <Menu> -->
     <div class="">
       <TheTitle/>
     </div>
@@ -12,7 +11,9 @@
       <p class="section-txt">Room Activity</p>
       <History />
     </div>
-    <TheFooter />
+    <div class="footer">
+      <TheFooter />
+    </div>
   </div>
   
 </template>
@@ -23,7 +24,6 @@ import TheFooter from '~/components/TheFooter.vue';
 import TheTitle from '~/components/TheTitle.vue';
 import History from '~/components/History.vue';
 import List from '~/components/List.vue';
-import Menu from '~/components/Menu.vue';
 
 
 export default Vue.extend({
@@ -33,7 +33,6 @@ export default Vue.extend({
       TheFooter,
       History,
       List,
-      Menu
     }
 })
 </script>
@@ -55,4 +54,12 @@ export default Vue.extend({
   body{
     background-color: #0D1118;
   }
+
+  .footer{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
 </style>

@@ -1,20 +1,24 @@
 <template>
     <div class="master">
 			<table v-if="!isEmpty" id="table">
-				<tr>
-					<!-- <th class="status">Status</th> -->
-					<th class="name">Name</th>
-					<th class="place">Place</th>
-					<th class="in-t">In Time</th>
-					<th class="spent-t">Spend Time</th>
-				</tr>
-				<tr v-for="elem in todaysLog">
-					<!-- <td>Active <div class="dot"></div></td> -->
-					<td>{{ elem.ID }}</td>
-					<td>{{ elem.place }}</td>
-					<td>{{ elem.inTime.toLocaleTimeString('ja-JP') }}</td>
-					<td>{{ getSpendTime(elem.inTime).toLocaleTimeString('ja-JP') }}{{ getEmoji(getSpendTime(elem.inTime)) }}</td>
-				</tr>
+				<thead>
+					<tr>
+						<!-- <th class="status">Status</th> -->
+						<th class="name">Name</th>
+						<th class="place">Place</th>
+						<th class="in-t">In Time</th>
+						<th class="spent-t">Spend Time</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="elem in todaysLog">
+						<!-- <td>Active <div class="dot"></div></td> -->
+						<td>{{ elem.name }}</td>
+						<td>{{ elem.place }}</td>
+						<td>{{ elem.inTime.toLocaleTimeString('ja-JP') }}</td>
+						<td>{{ getSpendTime(elem.inTime).toLocaleTimeString('ja-JP') }}{{ getEmoji(getSpendTime(elem.inTime)) }}</td>
+					</tr>
+				</tbody>
 			</table>
 			<div v-if="isEmpty" class="no-room">
 				<p>No one is active in any room.</p>
@@ -23,9 +27,10 @@
 </template>
 
 <script lang="ts">
+import axios, { AxiosResponse, AxiosError } from "axios";
 
 interface Log_t {
-	ID: string;
+	name: string;
 	place: String;
 	inTime: Date;
 }
@@ -39,14 +44,18 @@ export default {
       }
   },
 	mounted(){
-		this.todaysLog = [
-				{'ID': 'mochi','place': 'MediaLab' ,'inTime':new Date(2023, 4, 20)},
-				{'ID': 'mochi','place': 'MediaLab' ,'inTime':new Date(2023, 4, 20, 1)},
-				{'ID': 'mochi','place': 'MediaLab' ,'inTime':new Date(2023, 4, 20, 2)},
-				{'ID': 'mochi','place': 'MediaLab' ,'inTime':new Date(2023, 4, 20, 3)},
-				{'ID': 'mochi','place': 'MediaLab' ,'inTime':new Date(2023, 4, 20, 4)},
-		]
-		if(this.todaysLog.length == 0)this.isEmpty = true;
+		axios.post('http://localhost:8080/api/activeuser')
+				.then((res: AxiosResponse<Log_t[]>) => {
+				// Sort by name and stores
+				console.log(res.data);
+				res.data.forEach(elem => {
+					this.todaysLog.push({'name': elem.name, 'place': elem.place, 'inTime': new Date(elem.inTime)});
+				});
+				this.todaysLog.sort((a, b) => {return (a.name < b.name) ? -1 : 1; });
+				if(this.todaysLog.length == 0)this.isEmpty = true;
+			}).catch((e: AxiosError<{ error: string }>) => {
+				console.log(e.message);
+			});
 	},
 	methods: {
 		getSpendTime: (time: Date):Date => {
@@ -79,7 +88,7 @@ export default {
 
 <style scoped>
     .master{
-			border: solid;
+	  border: solid;
       border-color: gray;
       border-radius: 5px;
       padding: 2px 2px 2px 2px;
@@ -99,33 +108,34 @@ export default {
 				margin: 1rem;
     }
 
-		.dot {
-			height: 8px;
-			width: 8px;
-			background-color: greenyellow;
-			border-radius: 50%;
-			display: inline-block;
-			filter: drop-shadow(0em 0em 30px green);
-		}
+	.dot {
+		height: 8px;
+		width: 8px;
+		background-color: greenyellow;
+		border-radius: 50%;
+		display: inline-block;
+		filter: drop-shadow(0em 0em 30px green);
+	}
 
-		.no-room{
-			width: 700px;
-			height: 200px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			font-family: system-ui;
-			color: gray;
-		}
+	.no-room{
+		width: 700px;
+		height: 200px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-family: system-ui;
+		color: gray;
+	}
 
-		th{
-			border-bottom: 1px solid white;
-		}
+	th{
+		border-bottom: 1px solid white;
+	}
 
-		td{
-			height: 40px;
-			padding-right: 100px;
-		}
+	td, th{
+		height: 40px;
+		padding-right: 50px;
+		padding-left: 50px;
+	}
 
 
 

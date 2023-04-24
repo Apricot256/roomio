@@ -2,41 +2,59 @@
   <div class="border">
         
       <table>
-        <tr v-for="weeks in  history">
-          <td v-for="day in weeks">
-            <div v-if="day.isColor" class="cell" :style="{background: day.content}"></div>
-            <div v-else class="lavel">{{ day.content }}</div>
-          </td>
-        </tr>
+        <tbody>
+          <tr v-for="weeks, index in  history">
+            <td v-for="day in weeks">
+              <NuxtLink v-if="day.isColor" :to="day.link">
+                <div class="cell" :style="{background: day.content}"></div>
+              </NuxtLink>
+              <div v-else-if="index!=0" class="lavel-day">{{ day.content }}</div>
+              <div v-else-if="day.content!=''" class="lavel-month">{{ day.content }}</div>
+            </td>
+          </tr>
+        </tbody>
       </table>
   </div>
 </template>
 
 <script lang="ts">
 
+import axios, { AxiosResponse, AxiosError } from "axios";
+
 interface cell_t {
 	content: string;
 	isColor: boolean;
+  link: string;
 }
+
+interface cellData_t {
+  history: number[];
+}
+
 
 export default {
   name: 'History',
   data(){
     return{
-      history: [] as Array<Array<cell_t>>
+      history: [] as cell_t[][],
+      historyData: [] as number[]
     }
   },
-	mounted(){
-
-    var data = new Array(366);
-    for (let i = 0; i < data.length; i++) {
-      data[i] = Math.floor(Math.random() * 10);
+	async mounted(){
+    
+    async function getHistoryData(): Promise<any[]> {
+      const response = await axios.post('http://localhost:8080/api/history');
+      const data = response.data; // レスポンスデータを変数に格納
+      const historyArray = data.history; // 配列に格納したいデータが含まれているキーにアクセス
+      return historyArray; // 配列を返す
     }
+
+    this.historyData = await getHistoryData(); // 配列データを格納した変数を取得
 
     const getBeginDate = ():Date => {
       var lastYear: Date = new Date();
       lastYear.setFullYear(lastYear.getFullYear()-1);
-      lastYear.setDate(lastYear.getDate() - lastYear.getMonth());
+      lastYear.setDate(lastYear.getDate() - lastYear.getDay());
       return lastYear;
     }
 
@@ -47,29 +65,7 @@ export default {
       return (now <= end)? true:false;
     }
 
-    for (let day = 0; day < 8; day++) {
-      var row: cell_t[] = [];
-      for (let week = 0; isOutRange((day-1)+7*(week-1)); week++) {
-        var cell:cell_t = <cell_t>{content:'', isColor: false};
-        if(day == 0){
-          
-        }else{
-          if(week == 0){
-            cell.content = ['', 'Mon', '', 'Wed', '', 'Fri', ''][day-1];
-            cell.isColor = false;
-          }else{
-            cell.content = this.getColor(data[(day-1)+7*(week-1)]);
-            cell.isColor = true;
-          }
-        }
-        console.log()
-        row.push(cell);
-      }
-      this.history.push(row);
-    }
-  },
-  methods: {
-    getColor : (level: number):string => {
+    const getColor = (level: number):string => {
       if(level == 0){
         return '#161C22';
       }else if(level <= 2){
@@ -81,6 +77,38 @@ export default {
       }else{
         return '#39D353';
       }
+    }
+
+    var exMonth: number = getBeginDate().getMonth();
+
+    for (let day = 0; day < 8; day++) {
+      var row: cell_t[] = [];
+      for (let week = 0; isOutRange((day-1)+7*(week-1)); week++) {
+        var cell:cell_t = <cell_t>{};
+        if(day == 0){
+          cell.content = '';
+          cell.isColor = false;
+        }else{
+          if(week == 0){
+            cell.content = ['', 'Mon', '', 'Wed', '', 'Fri', ''][day-1];
+            cell.isColor = false;
+          }else{
+            var currentDate: Date = getBeginDate();
+            currentDate.setDate(currentDate.getDate()+(day-1)+7*(week-1)); 
+            cell.link = `/activity/${currentDate.toJSON().split('T')[0]}`;
+            cell.content = getColor(this.historyData[(day-1)+7*(week-1)]);
+            cell.isColor = true;
+
+            // Make name of month label
+            if((exMonth+1)%12 == currentDate.getMonth() && day == 6){
+              this.history[0][week].content = currentDate.toLocaleString('default', { month: 'short' });
+              exMonth = currentDate.getMonth();
+            }
+          }
+        }
+        row.push(cell);
+      }
+      this.history.push(row);
     }
   }
 
@@ -107,10 +135,22 @@ export default {
       background: #808080;
     }
 
-    .lavel{
+    .lavel-day{
       color: white;
       font-family: system-ui;
       font-size: 10px;
+    }
+
+    .lavel-month{
+      width: 10px;
+      height: 10px;
+      color: white;
+      font-family: system-ui;
+      font-size: 10px;
+    }
+
+    td > div.lavel-month{
+      column-span: 2;
     }
 
     table{

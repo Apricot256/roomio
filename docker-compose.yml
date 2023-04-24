@@ -8,4 +8,44 @@ services:
       - '3000:3000'
     volumes:
       - ./app/roomio:/roomio
+    environment: 
+      TZ: 'Asia/Tokyo'
     tty: true
+    restart: always
+    depends_on:
+      - api
+      - db
+
+  api:
+    container_name: api
+    build: ./api/
+    command: 'npm run dev'
+    ports:
+      - '8080:3000'
+    volumes:
+      - ./api:/api
+    environment:
+      TZ: 'Asia/Tokyo'
+      MYSQL_HOST: db
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DB: ${MYSQL_DB}
+    tty: true
+    restart: always
+    depends_on:
+      - db
+
+  db:
+    platform: linux/amd64
+    container_name: db
+    image: mysql:5.7
+    volumes:
+      - ./db/db-store:/var/lib/mysql
+      - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
+    environment: 
+      TZ: 'Asia/Tokyo'
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DB}
+    restart: always
