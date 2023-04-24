@@ -27,10 +27,6 @@ interface cell_t {
   link: string;
 }
 
-interface cellData_t {
-  history: number[];
-}
-
 
 export default {
   name: 'History',
@@ -44,18 +40,25 @@ export default {
     
     async function getHistoryData(): Promise<any[]> {
       const response = await axios.post('http://localhost:8080/api/history');
-      const data = response.data; // レスポンスデータを変数に格納
-      const historyArray = data.history; // 配列に格納したいデータが含まれているキーにアクセス
-      return historyArray; // 配列を返す
+      const data = response.data;
+      const historyArray = data.history;
+      return historyArray;
     }
 
-    this.historyData = await getHistoryData(); // 配列データを格納した変数を取得
+    this.historyData = await getHistoryData();
 
     const getBeginDate = ():Date => {
       var lastYear: Date = new Date();
       lastYear.setFullYear(lastYear.getFullYear()-1);
       lastYear.setDate(lastYear.getDate() - lastYear.getDay());
       return lastYear;
+    }
+
+    const createLink = (date: Date): string => {
+      const year = date.getFullYear();
+      const month = ('0' + (date.getMonth() + 1)).slice(-2);
+      const day = ('0' + date.getDate()).slice(-2);
+      return `/activity/${year}-${month}-${day}`;
     }
 
     const isOutRange = (pastDay: number):boolean => {
@@ -95,7 +98,7 @@ export default {
           }else{
             var currentDate: Date = getBeginDate();
             currentDate.setDate(currentDate.getDate()+(day-1)+7*(week-1)); 
-            cell.link = `/activity/${currentDate.toJSON().split('T')[0]}`;
+            cell.link = createLink(currentDate);
             cell.content = getColor(this.historyData[(day-1)+7*(week-1)]);
             cell.isColor = true;
 

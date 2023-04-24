@@ -47,7 +47,6 @@ export default {
 		axios.post('http://localhost:8080/api/activeuser')
 				.then((res: AxiosResponse<Log_t[]>) => {
 				// Sort by name and stores
-				console.log(res.data);
 				res.data.forEach(elem => {
 					this.todaysLog.push({'name': elem.name, 'place': elem.place, 'inTime': new Date(elem.inTime)});
 				});

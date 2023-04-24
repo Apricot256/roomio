@@ -125,10 +125,22 @@ app.post('/api/activeuser', (req, res) => {
     connection.end();
     return result;
   }).then((ret) => {
-    console.log(ret);
     res.status(200).send(ret);
   })
 })
+
+// Get Todays Activity API
+app.post('/api/activity', (req, res) => {
+  const dateStr:String = req.body.date;
+  connection().then(connection => {
+    const result = connection.query(`SELECT COALESCE(u.name, "Unknown") as name, place, inTime, outTime FROM USER u RIGHT JOIN  LOG l ON u.ID = l.ID WHERE CAST(l.inTime AS DATE) = '${dateStr}';`);
+    connection.end()
+    return result;
+  }).then(ret => {
+    res.status(200).send(ret);
+  })
+})
+
 
 // Get Activity History API
 app.post('/api/history', (req, res) => {
