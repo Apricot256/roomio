@@ -1,23 +1,32 @@
 <template>
   <div class="all">
+
     <div class="">
       <TheTitle/>
     </div>
-    <div>
-      <p class="section-txt">Room Status</p>
-      <List/>
-    </div>
-    <div>
-      <p class="section-txt">Timeline</p>
-      <TimeLine :date="getTodayStr()" />
-    </div>
-    <div>
-      <p class="section-txt">Room Activity</p>
-      <History />
-    </div>
+
+    <div class="main">
+        <div class="content">
+          <div class="flex-content">
+            <p class="section-txt">Room Status</p>
+            <List/>
+          </div>
+          <div>
+            <p class="section-txt">Room Activity</p>
+            <div class="history">
+              <History />
+            </div>
+          </div>
+        </div>
+        <div>
+            <p class="section-txt">Timeline</p>
+            <TimeLine :date="getTodayStr()" />
+        </div>
+      </div>
     <div class="footer">
       <TheFooter />
     </div>
+
   </div>
   
 </template>
@@ -55,8 +64,8 @@ export default Vue.extend({
 <style>
   .all {
     margin-top: 80px;
-    margin-left: 10%;
-    margin-right: 10%;
+    padding-left: 10%;
+    padding-right: 10%;
   }
 
   .section-txt{
@@ -71,6 +80,26 @@ export default Vue.extend({
   body{
     background-color: #0D1118;
   }
+
+  .history{
+    margin-right: 30px;
+  }
+
+  @media screen and (min-width:1000px) {
+    .main {
+      display: flex;
+      flex-direction: row;
+      flex-grow: 1;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    
+  } 
+
 
   .footer{
     margin-top: 30px;

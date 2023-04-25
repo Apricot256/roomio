@@ -135,9 +135,11 @@ li{
   font-weight: 500;
 }
 p{
+  white-space: nowrap;
   color: white;
   font-family: sans-serif;
   line-height: 1.5;
   margin-top:0.4rem;
+
 }
 </style>

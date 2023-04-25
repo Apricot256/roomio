@@ -132,8 +132,8 @@ export default {
 
 	td, th{
 		height: 40px;
-		padding-right: 50px;
-		padding-left: 50px;
+		padding-right: 1rem;
+		padding-left: 1rem;
 	}
 
 

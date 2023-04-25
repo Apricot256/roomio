@@ -26,10 +26,11 @@
     }
 
     .flex .logo{
-      height: 9em; /*画像サイズ指定*/
+      height: 9em;
+      width: 9em;
       margin: 0;
       padding: 0;
-      overflow: hidden;
+      /* overflow: hidden; */
       position: relative;
     }
 
