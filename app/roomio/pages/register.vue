@@ -60,7 +60,7 @@
           if(isNameEmpty)this.name_p = 'Invalid name!';
 
           if(!isIDEmpty && !isNameEmpty){
-            axios.post('http://localhost:8080/api/register', {
+            axios.post('api/register', {
                 id: this.id,
                 name: this.name
             }).then((res: AxiosResponse<string>) => {

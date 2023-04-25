@@ -39,31 +39,37 @@
 			}
 		},
 		props:{
-			date: String
+			date: String,
+			indivisual: Boolean
 		},
 		async mounted(){
 
+			// @ts-ignore
 			const localDate = this.date;
+			// @ts-ignore
+			const indivisual = this.indivisual
 
 			const getTimeStr = (date: string): string => {
 				return new Date(date).toLocaleTimeString('ja-JP');
 			};
 
-			async function getHistoryData(): Promise<any[]> {
-				const response = await axios.post('http://localhost:8080/api/activity', {date:localDate});
+			async function getHistoryData(): Promise<res_t[]> {
+				const response = await axios.post(((indivisual)?'../':'')+'api/activity', {date:localDate});
 				return response.data;
 			}
 
 			const data: res_t[] = await getHistoryData();
 
 			data.forEach(elem => {
+				// @ts-ignore
 				this.activities.push(<act_t>{name:elem.name, place:elem.place, timeStr:getTimeStr(elem.inTime), isEnter:true});
 				if(elem.outTime != null){
+					// @ts-ignore
 					this.activities.push(<act_t>{name:elem.name, place:elem.place, timeStr:getTimeStr(elem.outTime), isEnter:false});
 				}
 			});
-			this.activities.sort((a, b) => {return (a.timeStr < b.timeStr) ? -1 : 1; });
-
+			// @ts-ignore
+			this.activities.sort((a:act_t, b:act_t) => {return (a.timeStr < b.timeStr) ? -1 : 1; });
 			}
 	}
 	

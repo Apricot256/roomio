@@ -1,7 +1,0 @@
-FROM node:19-alpine
-
-WORKDIR /roomio
-
-EXPOSE 8080
-
-ENV HOST 0.0.0.0

@@ -208,6 +208,7 @@ app.post('/api/io', (req, res) => {
         connection.end();
       })
       console.log(`${id} enters into ${place}.`);
+      res.status(200).send('0');
     }else{
       // In the case user is not in the room.
       connection().then(connection =>{
@@ -215,10 +216,10 @@ app.post('/api/io', (req, res) => {
         connection.end();
       })
       console.log(`${id} exit from ${place}.`);
+      res.status(200).send('1');
     }
     
   })
-  res.status(200).send('ok');
 })
 
 

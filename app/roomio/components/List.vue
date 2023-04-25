@@ -44,13 +44,16 @@ export default {
       }
   },
 	mounted(){
-		axios.post('http://localhost:8080/api/activeuser')
+		axios.post('api/activeuser')
 				.then((res: AxiosResponse<Log_t[]>) => {
 				// Sort by name and stores
 				res.data.forEach(elem => {
+					// @ts-ignore
 					this.todaysLog.push({'name': elem.name, 'place': elem.place, 'inTime': new Date(elem.inTime)});
 				});
+				// @ts-ignore
 				this.todaysLog.sort((a, b) => {return (a.name < b.name) ? -1 : 1; });
+				// @ts-ignore
 				if(this.todaysLog.length == 0)this.isEmpty = true;
 			}).catch((e: AxiosError<{ error: string }>) => {
 				console.log(e.message);

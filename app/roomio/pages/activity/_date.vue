@@ -1,6 +1,6 @@
 <template>
 	<div class="all">
-		<TimeLine :date="$route.params.date"></TimeLine>
+		<TimeLine :date="$route.params.date" :indivisual="true"></TimeLine>
 	</div>
 </template>
 

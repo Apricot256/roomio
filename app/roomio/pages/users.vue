@@ -40,7 +40,7 @@
         TheFooter,
       },
 			mounted() {
-				axios.post('http://localhost:8080/api/userlist')
+				axios.post('api/userlist')
 					.then((res: AxiosResponse<User_t[]>) => {
             // Sort by id and stores
 						this.users = res.data.sort((a, b) => {return (a.id < b.id) ? -1 : 1; });

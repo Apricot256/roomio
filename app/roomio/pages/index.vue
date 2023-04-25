@@ -1,8 +1,9 @@
 <template>
   <div class="all">
 
-    <div class="">
-      <TheTitle/>
+    <div class="title">
+      <div><TheTitle/></div>
+      
     </div>
 
     <div class="main">
@@ -20,7 +21,7 @@
         </div>
         <div>
             <p class="section-txt">Timeline</p>
-            <TimeLine :date="getTodayStr()" />
+            <TimeLine :date="getTodayStr()" :indivisual="false" />
         </div>
       </div>
     <div class="footer">
@@ -66,6 +67,11 @@ export default Vue.extend({
     margin-top: 80px;
     padding-left: 10%;
     padding-right: 10%;
+  }
+
+  .title{
+    display: flex;
+    justify-content: center;
   }
 
   .section-txt{

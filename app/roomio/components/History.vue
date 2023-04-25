@@ -39,12 +39,13 @@ export default {
 	async mounted(){
     
     async function getHistoryData(): Promise<any[]> {
-      const response = await axios.post('http://localhost:8080/api/history');
+      const response = await axios.post('api//history');
       const data = response.data;
       const historyArray = data.history;
       return historyArray;
     }
 
+    // @ts-ignore
     this.historyData = await getHistoryData();
 
     const getBeginDate = ():Date => {
@@ -99,11 +100,13 @@ export default {
             var currentDate: Date = getBeginDate();
             currentDate.setDate(currentDate.getDate()+(day-1)+7*(week-1)); 
             cell.link = createLink(currentDate);
+            // @ts-ignore
             cell.content = getColor(this.historyData[(day-1)+7*(week-1)]);
             cell.isColor = true;
 
             // Make name of month label
             if((exMonth+1)%12 == currentDate.getMonth() && day == 6){
+              // @ts-ignore
               this.history[0][week].content = currentDate.toLocaleString('default', { month: 'short' });
               exMonth = currentDate.getMonth();
             }
@@ -111,6 +114,7 @@ export default {
         }
         row.push(cell);
       }
+      // @ts-ignore
       this.history.push(row);
     }
   }
