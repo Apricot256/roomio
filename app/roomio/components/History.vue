@@ -39,7 +39,7 @@ export default {
 	async mounted(){
     
     async function getHistoryData(): Promise<any[]> {
-      const response = await axios.post('api//history');
+      const response = await axios.post('api/history');
       const data = response.data;
       const historyArray = data.history;
       return historyArray;

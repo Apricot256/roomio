@@ -60,10 +60,9 @@
       color: white;
       font-family: system-ui;
     }
-  
-    .form{
-        margin-top: 120px;
-        margin-bottom: 50px;
+
+    h1{
+      font-size: 2rem;
     }
   
     body{
@@ -74,7 +73,7 @@
       margin:auto;
       color: white;
       border-collapse: collapse;
-      margin-top: 100px;
+      margin-top: 80px;
     }
 
     th{
@@ -83,8 +82,16 @@
 
     td, th{
       height: 40px;
-      padding-right: 50px;
-      padding-left: 50px;
+      padding-right: 1rem;
+      padding-left: 1rem;
+      white-space:nowrap;
+    }
+
+    .footer{
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
     }
 
 

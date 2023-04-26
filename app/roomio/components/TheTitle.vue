@@ -2,7 +2,9 @@
 <template>
   <div>
      <div class="flex">
-      <img src="../static/SuwaGeeks.png" alt="Logo" class="logo">
+      <div class="logo-wrap">
+        <img src="../static/SuwaGeeks.png" alt="Logo" class="logo">
+      </div>
       <div>
         <p class="title-text">roomio</p><br>
         <p class="subtitle-text">powerd by SuwaGeeks</p>
@@ -22,7 +24,7 @@
 
     .flex{
       display: flex;
-      justify-content: center;
+      justify-content: flex-end;
     }
 
     .flex .logo{
@@ -35,12 +37,17 @@
     }
 
     .flex .title-text{
-      margin: 0 0 0 20px;
+      margin: 0 0 0 0.4rem;
       vertical-align: middle;
       display: inline-block;
-      font-size: 100px;
+      font-size: 6rem;
       font-family: System-ui;
       color: white;
+    }
+
+    .logo-wrap{
+      display: flex;
+      align-items: center;
     }
 
     .subtitle-text{
@@ -50,6 +57,27 @@
     }
 
     .logo, .title-text, .subtitle-text{
-      filter: drop-shadow(0em 0em 53px #00ccff);
+      filter: drop-shadow(0em 0em 3.4rem #00ccff);
     }
+
+@media screen and (max-width:560px) {
+  .flex .logo{
+    height: 6rem;
+    width: 6rem;
+  }
+
+  .flex .title-text{
+    font-size: 4rem;
+  }
+
+  .subtitle-text{
+    font-size: 0.8rem;
+  }
+
+  .logo, .title-text, .subtitle-text{
+    filter: drop-shadow(0em 0em 2.4rem #00ccff);
+  }
+    
+} 
+
 </style>

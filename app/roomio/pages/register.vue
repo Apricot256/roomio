@@ -77,17 +77,37 @@
   
   <style scoped>
     .all {
-      margin-top: 80px;
+      margin-top: 5rem;
       margin-left: 10%;
       margin-right: 10%;
       text-align: center;
       color: white;
       font-family: system-ui;
     }
+
+    h1{
+      font-size: 2rem;
+    }
+
+    input[type="text"] {
+      border: 1px solid gray;
+      border-radius: 0.4rem;
+      height: 1.5rem;
+      background-color: transparent;
+      color: white;
+      margin-bottom: 2px;
+      font-size: 1rem;
+    }
+
+    input[type="text"]:focus {
+      background-color: white;
+      color: black;
+      border-color: blue;
+    }
   
     .form{
-        margin-top: 120px;
-        margin-bottom: 50px;
+        margin-top: 5rem;
+        margin-bottom: 3.1rem;
     }
   
     body{
@@ -104,18 +124,18 @@
 
     a{
       width: 160px;
-      font-size: 16px;
+      font-size: 1rem;
       cursor: pointer;
-      margin: 20px;
-      padding: 10px;
-      height: 55px;
+      margin: 0.3rem;
+      padding: 0.5rem;
+      padding-right: 1rem;
+      padding-left: 1rem;
       text-align:center;
       background-size: 300% 100%;
       text-decoration: none;
       color: white;
-      border: solid;
-      border-color: gray;
-      border-radius: 5px;
+      border: 1px solid gray;
+      border-radius: 2rem;
     }
 
     .cancel_btn{

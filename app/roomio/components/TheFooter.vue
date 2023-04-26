@@ -30,8 +30,6 @@
         border-top: solid;
         color: gray;
         margin-top: 20px;
-        margin-left: 30px;
-        margin-right: 30px;
     }
 
 		.contents{
@@ -40,10 +38,10 @@
 		}
 
 		.contents > div{
-			margin-right: 20px;
-			margin-left: 20px;
+			margin-right: 0.8rem;
+			margin-left: 0.8rem;
 			margin-bottom: 0px;
-			margin-top: 10px;
+			margin-top: 0.6rem;
 			font-family: System-ui;
 			text-align: center;
 			color: gray;
@@ -53,5 +51,15 @@
 			text-decoration: none;
 			color: gray;
 		}
+
+	@media screen and (max-width:560px) {
+		.contents > div{
+			font-size: 0.8rem;
+		}
+
+		.footer-text{
+			font-size: 0.8rem;
+		}
+  }
 
 </style>

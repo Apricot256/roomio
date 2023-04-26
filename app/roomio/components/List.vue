@@ -89,26 +89,26 @@ export default {
 </script>
 
 <style scoped>
-    .master{
-	  border: solid;
-      border-color: gray;
-      border-radius: 5px;
-      padding: 2px 2px 2px 2px;
-      overflow-y: hidden;
-      display: inline-block;
-    }
+	.master{
+		border: solid;
+		border-color: gray;
+		border-radius: 5px;
+		padding: 2px 2px 2px 2px;
+		overflow-y: hidden;
+		display: inline-block;
+	}
 
-    #table{
-        color: white;
-        font-family: system-ui;
-				font-size: 1.2rem;
-				text-align: left;
-				display: block;
-  			border-collapse: collapse;
-				border-spacing: 5px;
-				overflow-x: scroll;
-				margin: 1rem;
-    }
+	#table{
+			color: white;
+			font-family: system-ui;
+			font-size: 1.2rem;
+			text-align: left;
+			display: block;
+			border-collapse: collapse;
+			border-spacing: 5px;
+			overflow-x: scroll;
+			margin: 1rem;
+	}
 
 	.dot {
 		height: 8px;
@@ -139,7 +139,24 @@ export default {
 		padding-left: 1rem;
 	}
 
+	@media screen and (max-width:560px) {
+		#table{
+			font-size: 0.8rem;
+			margin: 0rem;
+		}
 
+		.master{
+			border: none;
+			padding: 0px 0px 0px 0px;
+		}
+
+		td, th{
+			height: 40px;
+			padding-right: 7px;
+			padding-left: 7px;
+		}
+
+  }
 
 
 </style>

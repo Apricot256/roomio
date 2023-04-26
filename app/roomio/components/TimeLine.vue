@@ -1,7 +1,7 @@
 <template>
     <div class="container">
   <div class="wrapper">
-    <h1> {{date?.replaceAll('-', '/')}} </h1>
+    <h1 v-if="indivisual"> {{date?.replaceAll('-', '/')}} </h1>
     <ul class="sessions">
 			<li v-for="activity in activities">
 				<div class="time">{{ activity.timeStr }}</div>
@@ -108,7 +108,7 @@ h1{
 }
 li{
   padding-bottom: 1.5rem;
-  border-left: 1px solid #abaaed;
+  border-left: 1px solid gray;
   position: relative;
   padding-left: 20px;
   margin-left: 10px;
@@ -122,7 +122,7 @@ li{
 	position:  relative;
 	top: -1px;
 	left: -28px;
-	background-color: greenyellow;
+	background-color: #5CC7F9;
 }
 .exit::before{
 	content:  "";
@@ -133,7 +133,7 @@ li{
 	position:  relative;
 	top: -1px;
 	left: -28px;
-	background-color: orange;
+	background-color: #FC3C30;
 }
 .time{
   color: pink;
@@ -146,6 +146,35 @@ p{
   font-family: sans-serif;
   line-height: 1.5;
   margin-top:0.4rem;
-
 }
+
+@media screen and (max-width:560px) {
+	.container{
+		border: none;
+		padding: 0px;
+	}
+
+	.wrapper{
+		padding: 0px;
+	}
+
+	p{
+		font-size: 0.8rem;
+	}
+
+	.time{
+		font-size: 0.9rem;
+	}
+
+	li{
+		padding-bottom: 10px;
+	}
+
+	.enter:before, .exit::before {
+		height: 8px;
+		width: 8px;
+		left: -24px;
+	}
+}
+
 </style>

@@ -3,27 +3,26 @@
 
     <div class="title">
       <div><TheTitle/></div>
-      
     </div>
 
     <div class="main">
-        <div class="content">
-          <div class="flex-content">
-            <p class="section-txt">Room Status</p>
-            <List/>
-          </div>
-          <div>
-            <p class="section-txt">Room Activity</p>
-            <div class="history">
-              <History />
-            </div>
-          </div>
+      <div class="content">
+        <div class="flex-content">
+          <p class="section-txt">Room Status</p>
+          <List/>
         </div>
-        <div>
-            <p class="section-txt">Timeline</p>
-            <TimeLine :date="getTodayStr()" :indivisual="false" />
+        <div class="history">
+          <p class="section-txt">Room Activity</p>
+          <div class="history">
+            <History />
+          </div>
         </div>
       </div>
+      <div>
+          <p class="section-txt">Timeline</p>
+          <TimeLine :date="getTodayStr()" :indivisual="false" />
+      </div>
+    </div>
     <div class="footer">
       <TheFooter />
     </div>
@@ -65,8 +64,8 @@ export default Vue.extend({
 <style>
   .all {
     margin-top: 80px;
-    padding-left: 10%;
-    padding-right: 10%;
+    margin-left: 10%;
+    margin-right: 10%;
   }
 
   .title{
@@ -91,7 +90,15 @@ export default Vue.extend({
     margin-right: 30px;
   }
 
-  @media screen and (min-width:1000px) {
+  .footer{
+    margin-top: 30px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    clear: both;
+  }
+
+  @media screen and (min-width:560px) {
     .main {
       display: flex;
       flex-direction: row;
@@ -103,16 +110,29 @@ export default Vue.extend({
       flex-direction: column;
       flex-grow: 1;
     }
-    
   } 
 
+  @media screen and (max-width:560px) {
 
-  .footer{
-    margin-top: 30px;
-    /* position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0; */
+    .all {
+      margin-top: 35px;
+      margin-left: 5%;
+      margin-right: 5%;
+    }
+
+    .title{
+      display: flex;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+
+    .history{
+      display: none;
+    }
+
+    .section-txt{
+      font-size: 1.2rem;
+    }
   }
 
 </style>
