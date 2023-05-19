@@ -2,9 +2,53 @@ version: '3'
 services:
   app:
     container_name: app
-    build: ./app/
+    image: node:19-alpine
+    working_dir: /roomio
+    command: sh -c 'npm install && npm run build && npm run start '
     ports:
-      - '3000:3000'
+      - '${APP_PORT}:3000'
     volumes:
       - ./app/roomio:/roomio
+    environment: 
+      TZ: 'Asia/Tokyo'
+      API_ENDPOINT: ${API_ENDPOINT}
     tty: true
+    restart: always
+    depends_on:
+      - api
+      - db
+
+  api:
+    container_name: api
+    image: node:19-alpine
+    working_dir: /api
+    command: sh -c 'npm install && npm run dev'
+    ports:
+      - '${API_PORT}:3000'
+    volumes:
+      - ./api:/api
+    environment:
+      TZ: 'Asia/Tokyo'
+      MYSQL_HOST: db
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DB: ${MYSQL_DB}
+    tty: true
+    restart: always
+    depends_on:
+      - db
+
+  db:
+    platform: linux/amd64
+    container_name: db
+    image: mysql:5.7
+    volumes:
+      - ./db/db-store:/var/lib/mysql
+      - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
+    environment: 
+      TZ: 'Asia/Tokyo'
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DB}
+    restart: always

@@ -16,6 +16,10 @@ export default {
     ]
   },
 
+  server: {
+    host: '0.0.0.0'
+  },
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
   ],
@@ -35,7 +39,16 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/axios',
   ],
+
+  axios: {
+    proxy: true,
+  },
+
+  proxy: {
+    "/api/": process.env.API_ENDPOINT,
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
