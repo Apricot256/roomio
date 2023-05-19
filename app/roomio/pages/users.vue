@@ -1,5 +1,6 @@
 <template>
     <div class="all">
+      <div class="content">
         <h1>User List</h1>
         <table>
           <thead>
@@ -13,9 +14,10 @@
             </tr>
           </tbody>
         </table>
-        <div class="footer">
-          <TheFooter />
-        </div>
+      </div>
+      <div class="footer">
+        <TheFooter />
+      </div>
     </div>
 </template>
   
@@ -59,6 +61,24 @@
       text-align: center;
       color: white;
       font-family: system-ui;
+
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .content {
+        flex: 1;
+    }
+
+    .footer {
+        text-align: center;
+    }
+
+    html,body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
     }
 
     h1{
@@ -74,6 +94,7 @@
       color: white;
       border-collapse: collapse;
       margin-top: 80px;
+      margin-bottom: 70px;
     }
 
     th{

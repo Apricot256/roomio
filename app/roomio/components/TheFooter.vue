@@ -30,6 +30,7 @@
         border-top: solid;
         color: gray;
         margin-top: 20px;
+		background-color: #0D1118;
     }
 
 		.contents{
@@ -50,6 +51,11 @@
 		a{
 			text-decoration: none;
 			color: gray;
+		}
+
+		.footer-text{
+			padding-bottom: 20px;
+        	margin-bottom: 0px;
 		}
 
 	@media screen and (max-width:560px) {

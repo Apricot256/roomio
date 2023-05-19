@@ -70,7 +70,7 @@ export default Vue.extend({
 
   .title{
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
   }
 
   .section-txt{

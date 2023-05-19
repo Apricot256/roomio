@@ -142,7 +142,7 @@ export default {
 	@media screen and (max-width:560px) {
 		#table{
 			font-size: 0.8rem;
-			margin: 0rem;
+			margin: 0px;
 		}
 
 		.master{
@@ -154,6 +154,14 @@ export default {
 			height: 40px;
 			padding-right: 7px;
 			padding-left: 7px;
+		}
+
+		.no-room{
+			justify-content: left;
+			font-family: system-ui;
+			color: gray;
+			width: auto;
+			height: auto;
 		}
 
   }

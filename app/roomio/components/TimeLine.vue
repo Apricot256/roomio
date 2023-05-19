@@ -122,7 +122,7 @@ li{
 	position:  relative;
 	top: -1px;
 	left: -28px;
-	background-color: #5CC7F9;
+	background-color: #00E676;
 }
 .exit::before{
 	content:  "";
@@ -133,7 +133,7 @@ li{
 	position:  relative;
 	top: -1px;
 	left: -28px;
-	background-color: #FC3C30;
+	background-color: #9C27B0;
 }
 .time{
   color: pink;
